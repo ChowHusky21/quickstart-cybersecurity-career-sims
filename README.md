@@ -8,8 +8,8 @@ This repository documents **guided bootcamp coursework** — distinct from my se
 
 | # | Title | Focus |
 |---|---|---|
-| 1 | [Creating a Secure Network](sim-1-secure-network/README.md) | Tri-homed DMZ network design, troubleshooting, port-scanning baseline, plaintext-credential capture |
 | 2 | [Security Operations](sim-2-security-operations/README.md) | Vulnerability enumeration & scoring, Metasploit exploitation, root access, persistence, password cracking, hardening recommendations |
+| 1 | [Creating a Secure Network](sim-1-secure-network/README.md) | Tri-homed DMZ network design, troubleshooting, port-scanning baseline, plaintext-credential capture |
 | 3 | [Capture the Flag](sim-3-capture-the-flag/README.md) | EternalBlue (CVE-2017-0144) exploitation of a Windows target, Meterpreter post-exploitation, flag capture |
 
 ## ⚠️ Scope & Disclaimer
