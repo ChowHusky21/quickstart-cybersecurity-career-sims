@@ -1,6 +1,6 @@
 # Career Simulation 2: Security Operations
 
-**TL;DR:** Ran a full vulnerability assessment and exploitation exercise against a Production Server and Web Server in a segmented lab network — enumerated and scored vulnerabilities with `nmap`, exploited the critical vsFTPd 2.3.4 backdoor (CVE-2011-2523, CVSS 10.0) with Metasploit to gain confirmed root access on both hosts, created a persistence account, cracked recovered password hashes, and delivered a full server-hardening recommendation set.
+**TL;DR:** Ran a full vulnerability assessment and exploitation exercise against a Production Server and Web Server in a segmented lab network — enumerated and scored vulnerabilities with `nmap`, exploited the critical vsFTPd 2.3.4 backdoor (CVE-2011-2523, CVSS 9.8) with Metasploit to gain confirmed root access on both hosts, created a persistence account, cracked recovered password hashes, and delivered a full server-hardening recommendation set.
 
 ## Scenario
 
@@ -29,7 +29,7 @@ Four most severe confirmed vulnerabilities identified, ranked by NVD base score 
 
 | # | Vulnerability | CVE | CVSS |
 |---|---|---|---|
-| 1 | vsFTPd 2.3.4 backdoor (port 21/tcp, ftp) | CVE-2011-2523 | 10.0 — Critical |
+| 1 | vsFTPd 2.3.4 backdoor (port 21/tcp, ftp) | CVE-2011-2523 | 9.8 — Critical |
 | 2 | rmi-vuln-classloader, remote code execution via the default Java RMI registry configuration (port 1099/tcp, java-rmi) | CVE-2010-0094 | 7.5 — High (CVSS v2) |
 | 3 | ssl-ccs-injection, TLS plaintext-injection (port 5432/tcp, postgresql) | CVE-2014-0224 | 7.4 — High |
 | 4 | ssl-dh-params / Logjam, weak Diffie-Hellman parameters (port 5432/tcp, postgresql) | CVE-2015-4000 | 3.7 — Low |
@@ -53,7 +53,7 @@ Four most severe confirmed vulnerabilities identified, ranked by NVD base score 
 - **Restrict administrative access** to trusted networks/hosts using access lists or firewall filters, and require SSH-only remote administration.
 - **Disable direct root login** — require authentication as a non-privileged user before escalating privileges.
 - **Restrict users to their home directories** to limit lateral file access, and **disable anonymous FTP login** so only authenticated users can reach the FTP service.
-- **Rate-limit connection attempts** to mitigate brute-force attacks, and **use an external firewall to block SSLv2** traffic (or disable SSLv2 outright) to close off the Logjam/POODLE-class weaknesses found above.
+- **Rate-limit connection attempts** to mitigate brute-force attacks, and **harden TLS on the PostgreSQL service**: disable legacy SSL protocols and export-grade ciphers and require 2048-bit or larger Diffie-Hellman groups to close off Logjam, and patch OpenSSL to fix the CCS-injection flaw (CVE-2014-0224).
 - **Restrict or close unnecessary passive-mode port ranges** to shrink the exposed surface further.
 - **Monitor and regularly audit traffic**, maintaining logs for after-the-fact analysis of anomalous activity.
 
