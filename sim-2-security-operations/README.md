@@ -25,16 +25,16 @@ After successfully completing a network upgrade for the client, they requested a
 
 ## Findings
 
-Four most severe vulnerabilities identified (present on both Production Server and Web Server unless noted):
+Four most severe confirmed vulnerabilities identified, ranked by NVD base score (present on both Production Server and Web Server):
 
 | # | Vulnerability | CVE | CVSS |
 |---|---|---|---|
 | 1 | vsFTPd 2.3.4 backdoor (port 21/tcp, ftp) | CVE-2011-2523 | 10.0 — Critical |
-| 2 | ssl-dh-params / Logjam (port 5432/tcp, postgresql) | CVE-2024-5800 | 8.3 — High |
-| 3 | smb-vuln-reg-dos, null-pointer SMBv3 DoS (port 8180/tcp, http — **Web Server only**) | CVE-2022-32230 | 7.5 — High |
-| 4 | ssl-ccs-injection, TLS plaintext-injection (port 5432/tcp, postgresql) | CVE-2014-0224 | 7.4 — High |
+| 2 | rmi-vuln-classloader, remote code execution via the default Java RMI registry configuration (port 1099/tcp, java-rmi) | CVE-2010-0094 | 7.5 — High (CVSS v2) |
+| 3 | ssl-ccs-injection, TLS plaintext-injection (port 5432/tcp, postgresql) | CVE-2014-0224 | 7.4 — High |
+| 4 | ssl-dh-params / Logjam, weak Diffie-Hellman parameters (port 5432/tcp, postgresql) | CVE-2015-4000 | 3.7 — Low |
 
-A fifth notable finding, `rmi-vuln-classloader` (port 1099/tcp, java-rmi) — **CVE-2010-0094, CVSS 7.3 High** — allows arbitrary/remote code execution via the default RMI registry configuration and was present on both servers as well.
+**Likely false positive (not counted above):** Nmap's `smb-vuln-reg-dos` script also flagged CVE-2022-32230 (CVSS 7.5) on port 8180/tcp (http) of the Web Server only. That CVE is a Windows SMBv3 null-pointer crash, which doesn't match an HTTP service on this target, so it is treated as a scanner false positive rather than a confirmed finding.
 
 **Exposed-data findings (described by type only — no real values reproduced):** the compromised servers contained files with employee PII (candidate lists including names and government ID-style numbers), proprietary business data (safe combinations, proprietary formulas), and an editable copy of the organization's Social Media Security Policy — all discoverable by anyone who obtained the level of access gained here.
 
